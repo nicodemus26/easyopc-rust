@@ -5,3 +5,4 @@ authors = ["Nicodemus E Paradiso <nicodemus26@gmail.com>"]
 
 [dependencies]
 rand = "0.4"
+rgb = "0.8"

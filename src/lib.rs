@@ -1,12 +1,26 @@
 extern crate rand;
+extern crate rgb;
 
 use std::net::{Shutdown, TcpStream};
 use std::env;
 use std::default::Default;
+use std::io::{Result, Write};
+use rgb::*;
 
 pub struct Connection {
     pub rng: rand::ThreadRng,
     pub stream: TcpStream,
+}
+
+impl Connection {
+    pub fn emit(&mut self, pixels: &[RGB8]) -> Result<()> {
+        let mut header = vec![0u8; 4];
+        // Command and channel both 0.
+        header[2] = ((512u16 * 3) >> 8) as u8; // Length high byte
+        header[3] = ((512u16 * 3) & 255) as u8; // Length low byte
+        self.stream.write_all(&header)?;
+        self.stream.write_all(pixels.as_bytes())
+    }
 }
 
 impl Default for Connection {
