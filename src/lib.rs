@@ -12,8 +12,10 @@ pub struct Connection {
     pub stream: TcpStream,
 }
 
+pub type Pixel = rgb::RGB8;
+
 impl Connection {
-    pub fn emit(&mut self, pixels: &[RGB8]) -> Result<()> {
+    pub fn emit(&mut self, pixels: &[Pixel]) -> Result<()> {
         let mut header = vec![0u8; 4];
         // Command and channel both 0.
         header[2] = ((512u16 * 3) >> 8) as u8; // Length high byte
