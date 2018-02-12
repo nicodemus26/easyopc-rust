@@ -1,4 +1,7 @@
+# IntelliJ goo
+/.idea/
 
+# Rust lib
 /target/
 **/*.rs.bk
 Cargo.lock
