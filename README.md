@@ -2,7 +2,22 @@
 An ergonomics-first [Open Pixel Control](http://openpixelcontrol.org/) client for devices like [Fadecandy](http://www.misc.name/fadecandy/) and [Total Control Lighting](http://www.coolneon.com/category/total-control-lighting/).
 
 ## Usage
-To be continued...
+```rust
+extern crate easyopc;
+
+use easyopc::*;
+
+fn main() {
+    let mut opc = PixelControl::default();
+    let mut pixels = vec![Pixel{r:0,g:0,b:0}; 512];
+    draw_with_interval_ms(1000, ||{
+        for i in 0..512 {
+            pixels[i] = opc.random_color();
+        }
+        opc.emit(&pixels).unwrap();
+    });
+}
+```
 
 ## Stability
 This library is currently pre-1.0, which means breaking changes will happen. Consider pinning to a specific version to not have your build break.
@@ -19,3 +34,9 @@ Configuration is drawn from environment variables with sensible defaults.
 Sets ever pixel in the canvas to a random RGB value every second.
 
 ```cargo run --example random_pixels```
+
+### RGB Rotate
+
+Rotates through red, green, and blue every 10 seconds. This demonstrates crossfading well.
+
+```cargo run --example rgb_rotate```

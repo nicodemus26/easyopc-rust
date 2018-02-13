@@ -11,7 +11,7 @@ fn main() {
         Pixel{r:0,g:255,b:0},
         Pixel{r:0,g:0,b:255},
     ];
-    draw_with_interval_ms(1000, ||{
+    draw_with_interval_ms(10_000, ||{
         i = (i + 1) % colors.len();
         let color = colors[i];
 
