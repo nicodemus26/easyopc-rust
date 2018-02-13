@@ -7,6 +7,7 @@ use std::default::Default;
 use std::env;
 use std::io::{Result, Write};
 use std::net::{Shutdown, TcpStream};
+use std::time::Duration;
 
 pub struct PixelControl {
     pub rng: rand::ThreadRng,
@@ -31,6 +32,18 @@ impl PixelControl {
             g: self.rng.gen(),
             b: self.rng.gen(),
         }
+    }
+
+}
+
+pub fn draw_with_interval_ms<F: FnMut()>(ms: u64, draw: F) {
+    draw_with_interval(Duration::from_millis(ms), draw)
+}
+
+pub fn draw_with_interval<F: FnMut()>(interval: Duration, mut draw: F) {
+    loop {
+        draw();
+        std::thread::sleep(interval);
     }
 }
 
