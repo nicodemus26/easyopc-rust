@@ -8,14 +8,14 @@ use std::env;
 use std::io::{Result, Write};
 use std::net::{Shutdown, TcpStream};
 
-pub struct Connection {
+pub struct PixelControl {
     pub rng: rand::ThreadRng,
     pub stream: TcpStream,
 }
 
 pub type Pixel = rgb::RGB8;
 
-impl Connection {
+impl PixelControl {
     pub fn emit(&mut self, pixels: &[Pixel]) -> Result<()> {
         let mut header = vec![0u8; 4];
         // Command and channel both 0.
@@ -34,14 +34,14 @@ impl Connection {
     }
 }
 
-impl Default for Connection {
-    fn default() -> Connection {
+impl Default for PixelControl {
+    fn default() -> PixelControl {
         let endpoint = env::var("OPC_ENDPOINT").unwrap_or(String::from("127.0.0.1:7890"));
         let stream = TcpStream::connect(endpoint).unwrap();
         stream.shutdown(Shutdown::Read).unwrap(); // Not a great listener...
         stream.set_nodelay(true).unwrap();
         let rng = rand::thread_rng();
-        Connection {
+        PixelControl {
             rng: rng,
             stream: stream,
         }

@@ -4,7 +4,7 @@ use easyopc::*;
 use std::time::Duration;
 
 fn main() {
-    let mut opc = Connection::default();
+    let mut opc = PixelControl::default();
     loop {
         let mut pixels = vec![Pixel{r:0,g:0,b:0}; 512];
         for i in 0..512 {
