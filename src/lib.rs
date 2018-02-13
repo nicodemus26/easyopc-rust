@@ -1,11 +1,12 @@
 extern crate rand;
 extern crate rgb;
 
-use std::net::{Shutdown, TcpStream};
-use std::env;
-use std::default::Default;
-use std::io::{Result, Write};
+use rand::Rng;
 use rgb::*;
+use std::default::Default;
+use std::env;
+use std::io::{Result, Write};
+use std::net::{Shutdown, TcpStream};
 
 pub struct Connection {
     pub rng: rand::ThreadRng,
@@ -22,6 +23,14 @@ impl Connection {
         header[3] = ((512u16 * 3) & 255) as u8; // Length low byte
         self.stream.write_all(&header)?;
         self.stream.write_all(pixels.as_bytes())
+    }
+
+    pub fn random_color(&mut self) -> Pixel {
+        Pixel {
+            r: self.rng.gen(),
+            g: self.rng.gen(),
+            b: self.rng.gen(),
+        }
     }
 }
 
